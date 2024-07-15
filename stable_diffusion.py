@@ -1,0 +1,33 @@
+import streamlit as st
+from PIL import Image
+from authtoken import auth_token
+from torch import autocast
+from diffusers import StableDiffusionPipeline
+import torch
+
+# Streamlit setup
+st.set_page_config(page_title="Stable Bud", page_icon=":art:", layout="centered")
+st.title("Stable Bud")
+
+# User input for the prompt
+prompt = st.text_input("Enter your prompt here:", "")
+
+# Button to trigger image generation
+if st.button("Generate"):
+    if prompt:
+        model_id = "CompVis/stable-diffusion-v1-4"
+        device = "cpu"
+
+        # Load the model
+        pipe = StableDiffusionPipeline.from_pretrained(model_id, revision='fp16', torch_dtype=torch.float16, use_auth_token=auth_token)
+        pipe.to(device)
+
+        # Generate the image
+        with autocast(device):
+            image = pipe(prompt, guidance_scale=8.5)["sample"][0]
+        
+        # Save and display the image
+        image.save("generated_image.png")
+        st.image(image, caption="Generated Image")
+    else:
+        st.error("Please enter a prompt to generate an image.")
