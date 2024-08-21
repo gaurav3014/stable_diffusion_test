@@ -2,3 +2,4 @@ PIL
 authtoken
 torch
 diffusers
+Pillow
