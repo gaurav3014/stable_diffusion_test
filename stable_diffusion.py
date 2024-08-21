@@ -19,7 +19,7 @@ if st.button("Generate"):
         device = "cpu"
 
         # Retrieve the token from environment variables
-        auth_token = os.getenv("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")
+        auth_token = st.secrets["HUGGINGFACEHUB_API_TOKEN"]
         if not auth_token:
             st.error("API token not found. Please set the HUGGINGFACEHUB_API_TOKEN environment variable.")
         else:
