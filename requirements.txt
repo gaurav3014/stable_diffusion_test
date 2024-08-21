@@ -2,3 +2,4 @@ authtoken
 torch
 diffusers
 Pillow
+streamlit
